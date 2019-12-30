@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putBoolean("hasState", true);
         save();
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean(CAN_UNDO, view.game.canUndo);
         editor.putInt(GAME_STATE, view.game.gameState);
         editor.putInt(UNDO_GAME_STATE, view.game.lastGameState);
-        editor.commit();
+        editor.apply();
     }
 
     protected void onResume() {

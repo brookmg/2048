@@ -17,6 +17,11 @@
     <color name="color_512_background">#edc850</color>
     <color name="color_1024_background">#edc53f</color>
     <color name="color_2048_background">#edc22e</color>    // GREEN-ish
+    <color name="color_4096_background">#3c3a32</color>
+
+    <color name="color_rectangle_background">#bbada0</color>
+    <color name="color_rectangle_fade">#d6cdc4</color>
+    <color name="color_rectangle_light_up">#edcf72</color>
 
     <color name="status_background">#bbada0</color>
 </resources>
