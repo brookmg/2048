@@ -6,5 +6,17 @@
     <color name="background">#faf8ef</color>
     <color name="icon_background">#e8ba2e</color>
 
+    <color name="color_2_background">#eee4da</color>
+    <color name="color_4_background">#ede0c8</color>
+    <color name="color_8_background">#f2b179</color>
+    <color name="color_16_background">#f59563</color>      // RED-ish
+    <color name="color_32_background">#f67c5f</color>
+    <color name="color_64_background">#f65e3b</color>
+    <color name="color_128_background">#edcf72</color>
+    <color name="color_256_background">#edcc61</color>
+    <color name="color_512_background">#edc850</color>
+    <color name="color_1024_background">#edc53f</color>
+    <color name="color_2048_background">#edc22e</color>    // GREEN-ish
+
     <color name="status_background">#bbada0</color>
 </resources>
