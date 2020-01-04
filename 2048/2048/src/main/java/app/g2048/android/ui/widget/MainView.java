@@ -1,4 +1,4 @@
-package com.tpcstld.twozerogame.ui.widget;
+package app.g2048.android.ui.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,11 +11,11 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 
-import com.tpcstld.twozerogame.R;
-import com.tpcstld.twozerogame.data.Tile;
-import com.tpcstld.twozerogame.data.AnimationCell;
-import com.tpcstld.twozerogame.logic.MainGame;
-import com.tpcstld.twozerogame.util.InputListener;
+import app.g2048.android.R;
+import app.g2048.android.data.Tile;
+import app.g2048.android.data.AnimationCell;
+import app.g2048.android.logic.MainGame;
+import app.g2048.android.util.InputListener;
 
 import java.util.ArrayList;
 

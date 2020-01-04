@@ -1,4 +1,4 @@
-package com.tpcstld.twozerogame.ui.activity;
+package app.g2048.android.ui.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.view.KeyEvent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.tpcstld.twozerogame.ui.widget.MainView;
-import com.tpcstld.twozerogame.data.Tile;
+import app.g2048.android.ui.widget.MainView;
+import app.g2048.android.data.Tile;
 
 public class MainActivity extends AppCompatActivity {
 

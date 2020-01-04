@@ -1,4 +1,4 @@
-package com.tpcstld.twozerogame.data;
+package app.g2048.android.data;
 
 public class AnimationCell extends Cell {
     public final int[] extras;

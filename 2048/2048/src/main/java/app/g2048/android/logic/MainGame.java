@@ -1,14 +1,14 @@
-package com.tpcstld.twozerogame.logic;
+package app.g2048.android.logic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.tpcstld.twozerogame.ui.widget.MainView;
-import com.tpcstld.twozerogame.data.Tile;
-import com.tpcstld.twozerogame.data.AnimationGrid;
-import com.tpcstld.twozerogame.data.Cell;
-import com.tpcstld.twozerogame.data.Grid;
+import app.g2048.android.ui.widget.MainView;
+import app.g2048.android.data.Tile;
+import app.g2048.android.data.AnimationGrid;
+import app.g2048.android.data.Cell;
+import app.g2048.android.data.Grid;
 
 import java.util.ArrayList;
 import java.util.Collections;

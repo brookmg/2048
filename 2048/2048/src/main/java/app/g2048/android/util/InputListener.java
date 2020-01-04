@@ -1,4 +1,4 @@
-package com.tpcstld.twozerogame.util;
+package app.g2048.android.util;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -6,8 +6,8 @@ import android.content.DialogInterface;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.tpcstld.twozerogame.R;
-import com.tpcstld.twozerogame.ui.widget.MainView;
+import app.g2048.android.R;
+import app.g2048.android.ui.widget.MainView;
 
 public class InputListener implements View.OnTouchListener {
 
