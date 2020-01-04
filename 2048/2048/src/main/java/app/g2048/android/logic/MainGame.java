@@ -14,6 +14,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static app.g2048.android.util.Constants.FIRST_RUN;
+import static app.g2048.android.util.Constants.GAME_ENDLESS;
+import static app.g2048.android.util.Constants.GAME_ENDLESS_WON;
+import static app.g2048.android.util.Constants.GAME_LOST;
+import static app.g2048.android.util.Constants.GAME_NORMAL;
+import static app.g2048.android.util.Constants.GAME_WIN;
+import static app.g2048.android.util.Constants.HIGH_SCORE_PERM;
+
 public class MainGame {
 
     public static final int SPAWN_ANIMATION = -1;
@@ -26,24 +34,19 @@ public class MainGame {
     private static final long NOTIFICATION_DELAY_TIME = MOVE_ANIMATION_TIME + SPAWN_ANIMATION_TIME;
     private static final long NOTIFICATION_ANIMATION_TIME = MainView.BASE_ANIMATION_TIME * 5;
     private static final int startingMaxValue = 2048;
-    //Odd state = game is not active
-    //Even state = game is active
-    //Win state = active state + 1
-    private static final int GAME_WIN = 1;
-    private static final int GAME_LOST = -1;
-    private static final int GAME_NORMAL = 0;
+
     public int gameState = GAME_NORMAL;
     public int lastGameState = GAME_NORMAL;
     private int bufferGameState = GAME_NORMAL;
-    private static final int GAME_ENDLESS = 2;
-    private static final int GAME_ENDLESS_WON = 3;
-    private static final String HIGH_SCORE = "high score";
-    private static final String FIRST_RUN = "first run";
+
     private static int endingMaxValue;
+
     public final int numSquaresX = 4;
     public final int numSquaresY = 4;
+
     private final Context mContext;
     private final MainView mView;
+
     public Grid grid = null;
     public AnimationGrid aGrid;
     public boolean canUndo;
@@ -108,13 +111,13 @@ public class MainGame {
     private void recordHighScore() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putLong(HIGH_SCORE, highScore);
+        editor.putLong(HIGH_SCORE_PERM, highScore);
         editor.apply();
     }
 
     private long getHighScore() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
-        return settings.getLong(HIGH_SCORE, -1);
+        return settings.getLong(HIGH_SCORE_PERM, -1);
     }
 
     private boolean firstRun() {

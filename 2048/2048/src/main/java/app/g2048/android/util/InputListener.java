@@ -44,21 +44,27 @@ public class InputListener implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN:
                 x = event.getX();
                 y = event.getY();
+
                 startingX = x;
                 startingY = y;
                 previousX = x;
                 previousY = y;
+
                 lastDx = 0;
                 lastDy = 0;
+
                 hasMoved = false;
                 beganOnIcon = iconPressed(mView.sXNewGame, mView.sYIcons)
                               || iconPressed(mView.sXUndo, mView.sYIcons);
                 return true;
+
             case MotionEvent.ACTION_MOVE:
                 x = event.getX();
                 y = event.getY();
+
                 if (mView.game.isActive() && !beganOnIcon) {
                     float dx = x - previousX;
+
                     if (Math.abs(lastDx + dx) < Math.abs(lastDx) + Math.abs(dx) && Math.abs(dx) > RESET_STARTING
                             && Math.abs(x - startingX) > SWIPE_MIN_DISTANCE) {
                         startingX = x;
@@ -66,9 +72,9 @@ public class InputListener implements View.OnTouchListener {
                         lastDx = dx;
                         previousDirection = veryLastDirection;
                     }
-                    if (lastDx == 0) {
-                        lastDx = dx;
-                    }
+
+                    if (lastDx == 0) { lastDx = dx; }
+
                     float dy = y - previousY;
                     if (Math.abs(lastDy + dy) < Math.abs(lastDy) + Math.abs(dy) && Math.abs(dy) > RESET_STARTING
                             && Math.abs(y - startingY) > SWIPE_MIN_DISTANCE) {
@@ -77,61 +83,66 @@ public class InputListener implements View.OnTouchListener {
                         lastDy = dy;
                         previousDirection = veryLastDirection;
                     }
-                    if (lastDy == 0) {
-                        lastDy = dy;
-                    }
+
+                    if (lastDy == 0) { lastDy = dy; }
+
                     if (pathMoved() > SWIPE_MIN_DISTANCE * SWIPE_MIN_DISTANCE && !hasMoved) {
                         boolean moved = false;
+
                         //Vertical
-                        if (((dy >= SWIPE_THRESHOLD_VELOCITY && Math.abs(dy) >= Math.abs(dx)) || y - startingY >= MOVE_THRESHOLD) && previousDirection % 2 != 0) {
+                        boolean moreChangeOnYAxis = Math.abs(dy) >= Math.abs(dx);
+                        if (((dy >= SWIPE_THRESHOLD_VELOCITY && moreChangeOnYAxis) || y - startingY >= MOVE_THRESHOLD) && previousDirection % 2 != 0) {
                             moved = true;
                             previousDirection = previousDirection * 2;
                             veryLastDirection = 2;
                             mView.game.move(2);
-                        } else if (((dy <= -SWIPE_THRESHOLD_VELOCITY && Math.abs(dy) >= Math.abs(dx)) || y - startingY <= -MOVE_THRESHOLD) && previousDirection % 3 != 0) {
+                        } else if (((dy <= -SWIPE_THRESHOLD_VELOCITY && moreChangeOnYAxis) || y - startingY <= -MOVE_THRESHOLD) && previousDirection % 3 != 0) {
                             moved = true;
                             previousDirection = previousDirection * 3;
                             veryLastDirection = 3;
                             mView.game.move(0);
                         }
+
                         //Horizontal
-                        if (((dx >= SWIPE_THRESHOLD_VELOCITY && Math.abs(dx) >= Math.abs(dy)) || x - startingX >= MOVE_THRESHOLD) && previousDirection % 5 != 0) {
+                        boolean moreChangeOnXAxis = Math.abs(dx) >= Math.abs(dy);
+                        if (((dx >= SWIPE_THRESHOLD_VELOCITY && moreChangeOnXAxis)
+                                || x - startingX >= MOVE_THRESHOLD) && previousDirection % 5 != 0) {
                             moved = true;
                             previousDirection = previousDirection * 5;
                             veryLastDirection = 5;
                             mView.game.move(1);
-                        } else if (((dx <= -SWIPE_THRESHOLD_VELOCITY && Math.abs(dx) >= Math.abs(dy)) || x - startingX <= -MOVE_THRESHOLD) && previousDirection % 7 != 0) {
+                        } else if (((dx <= -SWIPE_THRESHOLD_VELOCITY && moreChangeOnXAxis)
+                                || x - startingX <= -MOVE_THRESHOLD) && previousDirection % 7 != 0) {
                             moved = true;
                             previousDirection = previousDirection * 7;
                             veryLastDirection = 7;
                             mView.game.move(3);
                         }
+
                         if (moved) {
                             hasMoved = true;
                             startingX = x;
                             startingY = y;
                         }
+
                     }
                 }
                 previousX = x;
                 previousY = y;
                 return true;
+
             case MotionEvent.ACTION_UP:
                 x = event.getX();
                 y = event.getY();
                 previousDirection = 1;
                 veryLastDirection = 1;
                 //"Menu" inputs
+
                 if (!hasMoved) {
                     if (iconPressed(mView.sXNewGame, mView.sYIcons)) {
                         if (!mView.game.gameLost()) {
                             new AlertDialog.Builder(mView.getContext())
-                                    .setPositiveButton(R.string.reset, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            mView.game.newGame();
-                                        }
-                                    })
+                                    .setPositiveButton(R.string.reset, (dialog, which) -> mView.game.newGame())
                                     .setNegativeButton(R.string.continue_game, null)
                                     .setTitle(R.string.reset_dialog_title)
                                     .setMessage(R.string.reset_dialog_message)
