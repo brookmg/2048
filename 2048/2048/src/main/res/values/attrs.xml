@@ -37,6 +37,7 @@
         <attr name="box64BackgroundColor" format="color" />
         <attr name="box128BackgroundColor" format="color" />
         <attr name="box256BackgroundColor" format="color" />
+        <attr name="box512BackgroundColor" format="color" />
         <attr name="box1024BackgroundColor" format="color" />
         <attr name="box2048BackgroundColor" format="color" />
 
