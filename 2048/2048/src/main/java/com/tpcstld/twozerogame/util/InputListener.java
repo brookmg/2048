@@ -1,11 +1,15 @@
-package com.tpcstld.twozerogame;
+package com.tpcstld.twozerogame.util;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.MotionEvent;
 import android.view.View;
 
-class InputListener implements View.OnTouchListener {
+import com.tpcstld.twozerogame.R;
+import com.tpcstld.twozerogame.ui.widget.MainView;
+
+public class InputListener implements View.OnTouchListener {
 
     private static final int SWIPE_MIN_DISTANCE = 0;
     private static final int SWIPE_THRESHOLD_VELOCITY = 25;
@@ -33,6 +37,7 @@ class InputListener implements View.OnTouchListener {
         this.mView = view;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouch(View view, MotionEvent event) {
         switch (event.getAction()) {
 

@@ -1,8 +1,14 @@
-package com.tpcstld.twozerogame;
+package com.tpcstld.twozerogame.logic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.tpcstld.twozerogame.ui.widget.MainView;
+import com.tpcstld.twozerogame.data.Tile;
+import com.tpcstld.twozerogame.data.AnimationGrid;
+import com.tpcstld.twozerogame.data.Cell;
+import com.tpcstld.twozerogame.data.Grid;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,8 +40,8 @@ public class MainGame {
     private static final String HIGH_SCORE = "high score";
     private static final String FIRST_RUN = "first run";
     private static int endingMaxValue;
-    final int numSquaresX = 4;
-    final int numSquaresY = 4;
+    public final int numSquaresX = 4;
+    public final int numSquaresY = 4;
     private final Context mContext;
     private final MainView mView;
     public Grid grid = null;
@@ -45,6 +51,9 @@ public class MainGame {
     public long highScore = 0;
     public long lastScore = 0;
     private long bufferScore = 0;
+
+    private double ODD_OF_GETTING_2 = 0.5;
+    private int theme = 0; // 0 LIGHT , 1 DARK , ...
 
     public MainGame(Context context, MainView view) {
         mContext = context;
@@ -84,7 +93,7 @@ public class MainGame {
 
     private void addRandomTile() {
         if (grid.isCellsAvailable()) {
-            int value = Math.random() < 0.9 ? 2 : 4;
+            int value = Math.random() < ODD_OF_GETTING_2 ? 2 : 4;
             Tile tile = new Tile(grid.randomAvailableCell(), value);
             spawnTile(tile);
         }

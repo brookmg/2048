@@ -1,6 +1,6 @@
-package com.tpcstld.twozerogame;
+package com.tpcstld.twozerogame.data;
 
-class AnimationCell extends Cell {
+public class AnimationCell extends Cell {
     public final int[] extras;
     private final int animationType;
     private final long animationTime;

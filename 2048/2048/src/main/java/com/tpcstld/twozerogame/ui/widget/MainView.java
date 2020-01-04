@@ -1,4 +1,4 @@
-package com.tpcstld.twozerogame;
+package com.tpcstld.twozerogame.ui.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,19 +11,25 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 
+import com.tpcstld.twozerogame.R;
+import com.tpcstld.twozerogame.data.Tile;
+import com.tpcstld.twozerogame.data.AnimationCell;
+import com.tpcstld.twozerogame.logic.MainGame;
+import com.tpcstld.twozerogame.util.InputListener;
+
 import java.util.ArrayList;
 
-@SuppressWarnings("deprecation")
 public class MainView extends View {
 
     //Internal Constants
-    static final int BASE_ANIMATION_TIME = 100000000;
+    public static final int BASE_ANIMATION_TIME = 100_000_000;
     private static final String TAG = MainView.class.getSimpleName();
     private static final float MERGING_ACCELERATION = (float) -0.5;
     private static final float INITIAL_VELOCITY = (1 - MERGING_ACCELERATION) / 4;
     public final int numCellTypes = 21;
     private final BitmapDrawable[] bitmapCell = new BitmapDrawable[numCellTypes];
     public final MainGame game;
+
     //Internal variables
     private final Paint paint = new Paint();
     public boolean hasSaveState = false;
@@ -32,22 +38,27 @@ public class MainView extends View {
     public int startingY;
     public int endingX;
     public int endingY;
+
     //Icon variables
     public int sYIcons;
     public int sXNewGame;
     public int sXUndo;
     public int iconSize;
+
     //Misc
-    boolean refreshLastTime = true;
-    boolean showHelp;
+    public boolean refreshLastTime = true;
+    public boolean showHelp;
+
     //Timing
     private long lastFPSTime = System.nanoTime();
+
     //Text
     private float titleTextSize;
     private float bodyTextSize;
     private float headerTextSize;
     private float instructionsTextSize;
     private float gameOverTextSize;
+
     //Layout variables
     private int cellSize = 0;
     private float textSize = 0;
@@ -55,6 +66,7 @@ public class MainView extends View {
     private int gridWidth = 0;
     private int textPaddingSize;
     private int iconPaddingSize;
+
     //Assets
     private Drawable backgroundRectangle;
     private Drawable lightUpRectangle;
@@ -63,6 +75,7 @@ public class MainView extends View {
     private BitmapDrawable loseGameOverlay;
     private BitmapDrawable winGameContinueOverlay;
     private BitmapDrawable winGameFinalOverlay;
+
     //Text variables
     private int sYAll;
     private int titleStartYAll;
@@ -152,7 +165,7 @@ public class MainView extends View {
         } else {
             paint.setColor(getResources().getColor(R.color.text_black));
         }
-        canvas.drawText("" + value, cellSize / 2, cellSize / 2 - textShiftY, paint);
+        canvas.drawText("" + value, cellSize / 2f, cellSize / 2f - textShiftY, paint);
     }
 
     private void drawScoreText(Canvas canvas) {
@@ -246,10 +259,10 @@ public class MainView extends View {
     private void drawHeader(Canvas canvas) {
         paint.setTextSize(headerTextSize);
         paint.setColor(getResources().getColor(R.color.text_black));
-        paint.setTextAlign(Paint.Align.LEFT);
-        int textShiftY = centerText() * 2;
+        paint.setTextAlign(Paint.Align.CENTER);
+        int textShiftY = centerText();
         int headerStartY = sYAll - textShiftY;
-        canvas.drawText(getResources().getString(R.string.header), startingX, headerStartY, paint);
+        canvas.drawText(getResources().getString(R.string.header), startingX + (centerText() * 2), headerStartY, paint);
     }
 
     private void drawInstructions(Canvas canvas) {
@@ -316,7 +329,7 @@ public class MainView extends View {
                             float textScaleSize = (float) (percentDone);
                             paint.setTextSize(textSize * textScaleSize);
 
-                            float cellScaleSize = cellSize / 2 * (1 - textScaleSize);
+                            float cellScaleSize = cellSize / 2f * (1 - textScaleSize);
                             bitmapCell[index].setBounds((int) (sX + cellScaleSize), (int) (sY + cellScaleSize), (int) (eX - cellScaleSize), (int) (eY - cellScaleSize));
                             bitmapCell[index].draw(canvas);
                         } else if (aCell.getAnimationType() == MainGame.MERGE_ANIMATION) { // Merging Animation
@@ -325,7 +338,7 @@ public class MainView extends View {
                                     + MERGING_ACCELERATION * percentDone * percentDone / 2);
                             paint.setTextSize(textSize * textScaleSize);
 
-                            float cellScaleSize = cellSize / 2 * (1 - textScaleSize);
+                            float cellScaleSize = cellSize / 2f * (1 - textScaleSize);
                             bitmapCell[index].setBounds((int) (sX + cellScaleSize), (int) (sY + cellScaleSize), (int) (eX - cellScaleSize), (int) (eY - cellScaleSize));
                             bitmapCell[index].draw(canvas);
                         } else if (aCell.getAnimationType() == MainGame.MOVE_ANIMATION) {  // Moving animation
