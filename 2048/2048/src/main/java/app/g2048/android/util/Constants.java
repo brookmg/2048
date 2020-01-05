@@ -26,4 +26,8 @@ public class Constants {
     public static final int GAME_ENDLESS = 2;
     public static final int GAME_ENDLESS_WON = 3;
 
+    public static final int BASE_ANIMATION_TIME = 100_000_000;
+    public static final float MERGING_ACCELERATION = (float) -0.5;
+    public static final float INITIAL_VELOCITY = (1 - MERGING_ACCELERATION) / 4;
+
 }

@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean("hasState")) {
-                GameSaver.loadGame(this, view);
+                //GameSaver.loadGame(this, view);
             }
         }
         setContentView(view);
@@ -34,17 +34,17 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putBoolean("hasState", true);
-        GameSaver.saveGame(this, view);
+        //GameSaver.saveGame(this, view);
     }
 
     protected void onPause() {
         super.onPause();
-        GameSaver.saveGame(this , view);
+        //GameSaver.saveGame(this , view);
     }
 
     protected void onResume() {
         super.onResume();
-        GameSaver.loadGame(this, view);
+        //GameSaver.loadGame(this, view);
     }
 
 }

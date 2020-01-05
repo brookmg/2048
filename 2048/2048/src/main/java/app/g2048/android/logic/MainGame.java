@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import app.g2048.android.ui.widget.G2048View;
 import app.g2048.android.ui.widget.MainView;
 import app.g2048.android.data.Tile;
 import app.g2048.android.data.AnimationGrid;
 import app.g2048.android.data.Cell;
 import app.g2048.android.data.Grid;
+import app.g2048.android.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,10 +31,10 @@ public class MainGame {
     public static final int MERGE_ANIMATION = 1;
 
     public static final int FADE_GLOBAL_ANIMATION = 0;
-    private static final long MOVE_ANIMATION_TIME = MainView.BASE_ANIMATION_TIME;
-    private static final long SPAWN_ANIMATION_TIME = MainView.BASE_ANIMATION_TIME;
+    private static final long MOVE_ANIMATION_TIME = Constants.BASE_ANIMATION_TIME;
+    private static final long SPAWN_ANIMATION_TIME = Constants.BASE_ANIMATION_TIME;
     private static final long NOTIFICATION_DELAY_TIME = MOVE_ANIMATION_TIME + SPAWN_ANIMATION_TIME;
-    private static final long NOTIFICATION_ANIMATION_TIME = MainView.BASE_ANIMATION_TIME * 5;
+    private static final long NOTIFICATION_ANIMATION_TIME = Constants.BASE_ANIMATION_TIME * 5;
     private static final int startingMaxValue = 2048;
 
     public int gameState = GAME_NORMAL;
@@ -45,7 +47,7 @@ public class MainGame {
     public final int numSquaresY = 4;
 
     private final Context mContext;
-    private final MainView mView;
+    private final G2048View mView;
 
     public Grid grid = null;
     public AnimationGrid aGrid;
@@ -58,7 +60,7 @@ public class MainGame {
     private double ODD_OF_GETTING_2 = 0.5;
     private int theme = 0; // 0 LIGHT , 1 DARK , ...
 
-    public MainGame(Context context, MainView view) {
+    public MainGame(Context context, G2048View view) {
         mContext = context;
         mView = view;
         endingMaxValue = (int) Math.pow(2, view.numCellTypes - 1);
@@ -83,7 +85,7 @@ public class MainGame {
         addStartTiles();
         mView.showHelp = firstRun();
         mView.refreshLastTime = true;
-        mView.resyncTime();
+        mView.reSyncTime();
         mView.invalidate();
     }
 
@@ -251,7 +253,8 @@ public class MainGame {
             addRandomTile();
             checkLose();
         }
-        mView.resyncTime();
+
+        mView.reSyncTime();
         mView.invalidate();
     }
 

@@ -1,13 +1,10 @@
 package app.g2048.android.util;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.MotionEvent;
 import android.view.View;
 
-import app.g2048.android.R;
-import app.g2048.android.ui.widget.MainView;
+import app.g2048.android.ui.widget.G2048View;
 
 public class InputListener implements View.OnTouchListener {
 
@@ -15,7 +12,7 @@ public class InputListener implements View.OnTouchListener {
     private static final int SWIPE_THRESHOLD_VELOCITY = 25;
     private static final int MOVE_THRESHOLD = 250;
     private static final int RESET_STARTING = 10;
-    private final MainView mView;
+    private final G2048View mView;
     private float x;
     private float y;
     private float lastDx;
@@ -32,7 +29,7 @@ public class InputListener implements View.OnTouchListener {
     // the press on an icon.
     private boolean beganOnIcon = false;
 
-    public InputListener(MainView view) {
+    public InputListener(G2048View view) {
         super();
         this.mView = view;
     }
@@ -54,8 +51,8 @@ public class InputListener implements View.OnTouchListener {
                 lastDy = 0;
 
                 hasMoved = false;
-                beganOnIcon = iconPressed(mView.sXNewGame, mView.sYIcons)
-                              || iconPressed(mView.sXUndo, mView.sYIcons);
+                beganOnIcon = false;
+
                 return true;
 
             case MotionEvent.ACTION_MOVE:
@@ -136,28 +133,6 @@ public class InputListener implements View.OnTouchListener {
                 y = event.getY();
                 previousDirection = 1;
                 veryLastDirection = 1;
-                //"Menu" inputs
-
-                if (!hasMoved) {
-                    if (iconPressed(mView.sXNewGame, mView.sYIcons)) {
-                        if (!mView.game.gameLost()) {
-                            new AlertDialog.Builder(mView.getContext())
-                                    .setPositiveButton(R.string.reset, (dialog, which) -> mView.game.newGame())
-                                    .setNegativeButton(R.string.continue_game, null)
-                                    .setTitle(R.string.reset_dialog_title)
-                                    .setMessage(R.string.reset_dialog_message)
-                                    .show();
-                        } else {
-                            mView.game.newGame();
-                        }
-
-                    } else if (iconPressed(mView.sXUndo, mView.sYIcons)) {
-                        mView.game.revertUndoState();
-                    } else if (isTap(2) && inRange(mView.startingX, x, mView.endingX)
-                            && inRange(mView.startingY, x, mView.endingY) && mView.continueButtonEnabled) {
-                        mView.game.setEndlessMode();
-                    }
-                }
         }
         return true;
     }
@@ -166,16 +141,4 @@ public class InputListener implements View.OnTouchListener {
         return (x - startingX) * (x - startingX) + (y - startingY) * (y - startingY);
     }
 
-    private boolean iconPressed(int sx, int sy) {
-        return isTap(1) && inRange(sx, x, sx + mView.iconSize)
-                && inRange(sy, y, sy + mView.iconSize);
-    }
-
-    private boolean inRange(float starting, float check, float ending) {
-        return (starting <= check && check <= ending);
-    }
-
-    private boolean isTap(int factor) {
-        return pathMoved() <= mView.iconSize * mView.iconSize * factor;
-    }
 }

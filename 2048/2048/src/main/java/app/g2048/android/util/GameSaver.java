@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import app.g2048.android.data.Tile;
+import app.g2048.android.ui.widget.G2048View;
 import app.g2048.android.ui.widget.MainView;
 
 import static app.g2048.android.util.Constants.CAN_UNDO;
@@ -19,7 +20,7 @@ import static app.g2048.android.util.Constants.WIDTH;
 
 public class GameSaver {
 
-    public static void saveGame(Context context, MainView view) {
+    public static void saveGame(Context context, G2048View view) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
 
@@ -54,7 +55,7 @@ public class GameSaver {
         editor.apply();
     }
 
-    public static void loadGame(Context context, MainView view) {
+    public static void loadGame(Context context, G2048View view) {
         //Stopping all animations
         view.game.aGrid.cancelAnimations();
 
