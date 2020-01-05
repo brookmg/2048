@@ -61,6 +61,8 @@ public class CoreActivity extends AppCompatActivity {
         componentButtons.add(findViewById(R.id.component_3_button));
         componentButtons.add(findViewById(R.id.component_4_button));
 
+        changeFragment(TAG_HOME , new Bundle(), null);
+
 //        setupComponentButtons(appCompatImageView -> {
 //            appCompatImageView.setImageResource(R.drawable.ic_back);
 //            appCompatImageView.setVisibility(View.VISIBLE);

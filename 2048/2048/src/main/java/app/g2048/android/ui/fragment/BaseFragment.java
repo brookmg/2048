@@ -18,6 +18,8 @@ package app.g2048.android.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import app.g2048.android.ui.activity.CoreActivity;
@@ -38,6 +40,14 @@ public abstract class BaseFragment extends Fragment {
     final void changeFragment(String tag, Bundle bundle, View view) {
         if (getActivity() != null) ((CoreActivity) getActivity())
                 .changeFragment(tag, bundle, view);
+    }
+
+    final void setupComponentButton(int atIndex , CoreActivity.ActionOnComponent actionOnComponent) {
+        if (getActivity() != null) ((CoreActivity) getActivity()).setupComponentButton(atIndex, actionOnComponent);
+    }
+
+    final void setupComponentButtons(CoreActivity.ActionOnComponent actionOnComponent, int... indices) {
+        if (getActivity() != null) ((CoreActivity) getActivity()).setupComponentButtons(actionOnComponent, indices);
     }
 
 }
