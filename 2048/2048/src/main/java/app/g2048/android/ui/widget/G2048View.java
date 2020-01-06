@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import app.g2048.android.R;
 import app.g2048.android.data.AnimationCell;
 import app.g2048.android.data.Tile;
-import app.g2048.android.logic.MainGame;
+import app.g2048.android.logic.G2048Game;
 import app.g2048.android.util.InputListener;
 
 import static app.g2048.android.util.Constants.INITIAL_VELOCITY;
@@ -32,7 +32,7 @@ public class G2048View extends View {
 
     public final int numCellTypes = 21;
     private final BitmapDrawable[] bitmapCell = new BitmapDrawable[numCellTypes];
-    public MainGame game;
+    public G2048Game game;
 
     // Internal Variables.
     private final Paint paint = new Paint();
@@ -74,12 +74,6 @@ public class G2048View extends View {
     private BitmapDrawable winGameContinueOverlay;
     private BitmapDrawable winGameFinalOverlay;
 
-    //Placement Variables
-    private int sYAll;
-    private int titleStartYAll;
-    private int bodyStartYAll;
-    private int eYAll;
-
     //Hook
     private MainViewHooks mainViewHooks;
 
@@ -98,7 +92,7 @@ public class G2048View extends View {
         initViews(context);
     }
 
-    public void setGame(MainGame game) {
+    public void setGame(G2048Game game) {
         this.game = game;
     }
 
@@ -108,7 +102,7 @@ public class G2048View extends View {
 
     private void initViews(Context context) {
         Resources resources = context.getResources();
-        setGame(new MainGame(context , this));
+        setGame(new G2048Game(context , this));
 
         try {
 
@@ -161,11 +155,11 @@ public class G2048View extends View {
     //todo: Make it dependent on the luminosity of the background of the cell
     private void drawCellText(Canvas canvas, int value) {
         int textShiftY = centerText();
-        if (value >= 8) {
-            paint.setColor(getResources().getColor(R.color.text_white));
-        } else {
+//        if (value >= 8) {
+//            paint.setColor(getResources().getColor(R.color.text_white));
+//        } else {
             paint.setColor(getResources().getColor(R.color.text_black));
-        }
+//        }
         canvas.drawText("" + value, cellSize / 2f, cellSize / 2f - textShiftY, paint);
     }
 
@@ -193,7 +187,7 @@ public class G2048View extends View {
                     for (int i = aArray.size() - 1; i >= 0; i--) {
                         AnimationCell aCell = aArray.get(i);
                         //If this animation is not active, skip it
-                        if (aCell.getAnimationType() == MainGame.SPAWN_ANIMATION) {
+                        if (aCell.getAnimationType() == G2048Game.SPAWN_ANIMATION) {
                             animated = true;
                         }
 
@@ -201,7 +195,7 @@ public class G2048View extends View {
                             continue;
                         }
 
-                        if (aCell.getAnimationType() == MainGame.SPAWN_ANIMATION) { // Spawning animation
+                        if (aCell.getAnimationType() == G2048Game.SPAWN_ANIMATION) { // Spawning animation
                             double percentDone = aCell.getPercentageDone();
                             float textScaleSize = (float) (percentDone);
                             paint.setTextSize(textSize * textScaleSize);
@@ -209,7 +203,7 @@ public class G2048View extends View {
                             float cellScaleSize = cellSize / 2f * (1 - textScaleSize);
                             bitmapCell[index].setBounds((int) (startX + cellScaleSize), (int) (startY + cellScaleSize), (int) (endX - cellScaleSize), (int) (endY - cellScaleSize));
                             bitmapCell[index].draw(canvas);
-                        } else if (aCell.getAnimationType() == MainGame.MERGE_ANIMATION) { // Merging Animation
+                        } else if (aCell.getAnimationType() == G2048Game.MERGE_ANIMATION) { // Merging Animation
                             double percentDone = aCell.getPercentageDone();
                             float textScaleSize = (float) (1 + INITIAL_VELOCITY * percentDone
                                     + MERGING_ACCELERATION * percentDone * percentDone / 2);
@@ -222,7 +216,7 @@ public class G2048View extends View {
                                     (int) (endY - cellScaleSize));
 
                             bitmapCell[index].draw(canvas);
-                        } else if (aCell.getAnimationType() == MainGame.MOVE_ANIMATION) {  // Moving animation
+                        } else if (aCell.getAnimationType() == G2048Game.MOVE_ANIMATION) {  // Moving animation
                             double percentDone = aCell.getPercentageDone();
                             int tempIndex = index;
                             if (aArray.size() >= 2) {
@@ -260,7 +254,7 @@ public class G2048View extends View {
         continueButtonEnabled = false;
 
         for (AnimationCell animation : game.aGrid.globalAnimation) {
-            if (animation.getAnimationType() == MainGame.FADE_GLOBAL_ANIMATION) {
+            if (animation.getAnimationType() == G2048Game.FADE_GLOBAL_ANIMATION) {
                 alphaChange = animation.getPercentageDone();
             }
         }
@@ -398,6 +392,7 @@ public class G2048View extends View {
     private void tick() {
         long currentTime = System.nanoTime();
         game.aGrid.tickAll(currentTime - lastFPSTime);
+        Log.e("FPS" , (currentTime - lastFPSTime) / 16_000 + "");
         lastFPSTime = currentTime;
     }
 
@@ -417,8 +412,8 @@ public class G2048View extends View {
         double halfNumSquaresY = game.numSquaresY / 2d;
         startingX = (int) (screenMiddleX - (cellSize + gridWidth) * halfNumSquaresX - gridWidth / 2);
         endingX = (int) (screenMiddleX + (cellSize + gridWidth) * halfNumSquaresX + gridWidth / 2);
-        startingY = (int) (boardMiddleY - (cellSize + gridWidth) * halfNumSquaresY - gridWidth / 2);
-        endingY = (int) (boardMiddleY + (cellSize + gridWidth) * halfNumSquaresY + gridWidth / 2);
+        startingY = (int) (screenMiddleY - (cellSize + gridWidth) * halfNumSquaresY - gridWidth / 2);
+        endingY = (int) (screenMiddleY + (cellSize + gridWidth) * halfNumSquaresY + gridWidth / 2);
 
         float widthWithPadding = endingX - startingX;
 
@@ -452,15 +447,8 @@ public class G2048View extends View {
 
         paint.setTextSize(titleTextSize);
 
-        int textShiftYAll = centerText();
-
         //static variables
-        sYAll = (int) (startingY - cellSize * 1.5);
-
         paint.setTextSize(bodyTextSize);
-        textShiftYAll = centerText();
-        eYAll = (int) (bodyStartYAll + textShiftYAll + bodyTextSize / 2 + textPaddingSize);
-
         reSyncTime();
     }
 

@@ -24,7 +24,7 @@ import static app.g2048.android.util.Constants.GAME_NORMAL;
 import static app.g2048.android.util.Constants.GAME_WIN;
 import static app.g2048.android.util.Constants.HIGH_SCORE_PERM;
 
-public class MainGame {
+public class G2048Game {
 
     public static final int SPAWN_ANIMATION = -1;
     public static final int MOVE_ANIMATION = 0;
@@ -57,10 +57,10 @@ public class MainGame {
     public long lastScore = 0;
     private long bufferScore = 0;
 
-    private double ODD_OF_GETTING_2 = 0.5;
+    private double ODD_OF_GETTING_2 = 0.8;
     private int theme = 0; // 0 LIGHT , 1 DARK , ...
 
-    public MainGame(Context context, G2048View view) {
+    public G2048Game(Context context, G2048View view) {
         mContext = context;
         mView = view;
         endingMaxValue = (int) Math.pow(2, view.numCellTypes - 1);

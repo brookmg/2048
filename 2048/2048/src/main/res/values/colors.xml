@@ -32,22 +32,22 @@
     <color name="black_1x">#bb0f0f0f</color>
     <color name="black_1y">#f80f0f0f</color>
 
-    <color name="color_2_background">#eee4da</color>
-    <color name="color_4_background">#ede0c8</color>
-    <color name="color_8_background">#f2b179</color>
-    <color name="color_16_background">#f59563</color>      // RED-ish
-    <color name="color_32_background">#f67c5f</color>
-    <color name="color_64_background">#f65e3b</color>
-    <color name="color_128_background">#edcf72</color>
-    <color name="color_256_background">#edcc61</color>
-    <color name="color_512_background">#edc850</color>
-    <color name="color_1024_background">#edc53f</color>
-    <color name="color_2048_background">#edc22e</color>    // GREEN-ish
-    <color name="color_4096_background">#3c3a32</color>
+    <color name="color_2_background">#E6EEDA</color>
+    <color name="color_4_background">#C9EDC8</color>
+    <color name="color_8_background">#7DF279</color>
+    <color name="color_16_background">#63F588</color>      // RED-ish
+    <color name="color_32_background">#5FF6BA</color>
+    <color name="color_64_background">#3BF6BB</color>
+    <color name="color_128_background">#72ED78</color>
+    <color name="color_256_background">#6AED61</color>
+    <color name="color_512_background">#50ED77</color>
+    <color name="color_1024_background">#3FED8D</color>
+    <color name="color_2048_background">#2EED74</color>    // GREEN-ish
+    <color name="color_4096_background">#323C35</color>
 
-    <color name="color_rectangle_background">#bbada0</color>
-    <color name="color_rectangle_fade">#d6cdc4</color>
-    <color name="color_rectangle_light_up">#edcf72</color>
+    <color name="color_rectangle_background">#AABBA0</color>
+    <color name="color_rectangle_fade">#D6D3C4</color>
+    <color name="color_rectangle_light_up">#C8ED72</color>
 
     <color name="status_background">#bbada0</color>
 </resources>

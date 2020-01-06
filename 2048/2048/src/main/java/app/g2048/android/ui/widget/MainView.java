@@ -14,8 +14,7 @@ import android.view.View;
 import app.g2048.android.R;
 import app.g2048.android.data.Tile;
 import app.g2048.android.data.AnimationCell;
-import app.g2048.android.logic.MainGame;
-import app.g2048.android.util.InputListener;
+import app.g2048.android.logic.G2048Game;
 
 import java.util.ArrayList;
 
@@ -28,7 +27,7 @@ public class MainView extends View {
     private static final float INITIAL_VELOCITY = (1 - MERGING_ACCELERATION) / 4;
     public final int numCellTypes = 21;
     private final BitmapDrawable[] bitmapCell = new BitmapDrawable[numCellTypes];
-    public final MainGame game = null;
+    public final G2048Game game = null;
 
     //Internal variables
     private final Paint paint = new Paint();
@@ -317,14 +316,14 @@ public class MainView extends View {
                     for (int i = aArray.size() - 1; i >= 0; i--) {
                         AnimationCell aCell = aArray.get(i);
                         //If this animation is not active, skip it
-                        if (aCell.getAnimationType() == MainGame.SPAWN_ANIMATION) {
+                        if (aCell.getAnimationType() == G2048Game.SPAWN_ANIMATION) {
                             animated = true;
                         }
                         if (!aCell.isActive()) {
                             continue;
                         }
 
-                        if (aCell.getAnimationType() == MainGame.SPAWN_ANIMATION) { // Spawning animation
+                        if (aCell.getAnimationType() == G2048Game.SPAWN_ANIMATION) { // Spawning animation
                             double percentDone = aCell.getPercentageDone();
                             float textScaleSize = (float) (percentDone);
                             paint.setTextSize(textSize * textScaleSize);
@@ -332,7 +331,7 @@ public class MainView extends View {
                             float cellScaleSize = cellSize / 2f * (1 - textScaleSize);
                             bitmapCell[index].setBounds((int) (sX + cellScaleSize), (int) (sY + cellScaleSize), (int) (eX - cellScaleSize), (int) (eY - cellScaleSize));
                             bitmapCell[index].draw(canvas);
-                        } else if (aCell.getAnimationType() == MainGame.MERGE_ANIMATION) { // Merging Animation
+                        } else if (aCell.getAnimationType() == G2048Game.MERGE_ANIMATION) { // Merging Animation
                             double percentDone = aCell.getPercentageDone();
                             float textScaleSize = (float) (1 + INITIAL_VELOCITY * percentDone
                                     + MERGING_ACCELERATION * percentDone * percentDone / 2);
@@ -341,7 +340,7 @@ public class MainView extends View {
                             float cellScaleSize = cellSize / 2f * (1 - textScaleSize);
                             bitmapCell[index].setBounds((int) (sX + cellScaleSize), (int) (sY + cellScaleSize), (int) (eX - cellScaleSize), (int) (eY - cellScaleSize));
                             bitmapCell[index].draw(canvas);
-                        } else if (aCell.getAnimationType() == MainGame.MOVE_ANIMATION) {  // Moving animation
+                        } else if (aCell.getAnimationType() == G2048Game.MOVE_ANIMATION) {  // Moving animation
                             double percentDone = aCell.getPercentageDone();
                             int tempIndex = index;
                             if (aArray.size() >= 2) {
@@ -373,7 +372,7 @@ public class MainView extends View {
         double alphaChange = 1;
         continueButtonEnabled = false;
         for (AnimationCell animation : game.aGrid.globalAnimation) {
-            if (animation.getAnimationType() == MainGame.FADE_GLOBAL_ANIMATION) {
+            if (animation.getAnimationType() == G2048Game.FADE_GLOBAL_ANIMATION) {
                 alphaChange = animation.getPercentageDone();
             }
         }

@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activity.CoreActivity"
-            android:theme="@style/G2048DarkTheme" >
+            android:theme="@style/G2048LightTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
