@@ -1,43 +1,54 @@
-package com.tpcstld.twozerogame;
+package app.g2048.android.logic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import app.g2048.android.ui.widget.G2048View;
+import app.g2048.android.ui.widget.MainView;
+import app.g2048.android.data.Tile;
+import app.g2048.android.data.AnimationGrid;
+import app.g2048.android.data.Cell;
+import app.g2048.android.data.Grid;
+import app.g2048.android.util.Constants;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MainGame {
+import static app.g2048.android.util.Constants.FIRST_RUN;
+import static app.g2048.android.util.Constants.GAME_ENDLESS;
+import static app.g2048.android.util.Constants.GAME_ENDLESS_WON;
+import static app.g2048.android.util.Constants.GAME_LOST;
+import static app.g2048.android.util.Constants.GAME_NORMAL;
+import static app.g2048.android.util.Constants.GAME_WIN;
+import static app.g2048.android.util.Constants.HIGH_SCORE_PERM;
+
+public class G2048Game {
 
     public static final int SPAWN_ANIMATION = -1;
     public static final int MOVE_ANIMATION = 0;
     public static final int MERGE_ANIMATION = 1;
 
     public static final int FADE_GLOBAL_ANIMATION = 0;
-    private static final long MOVE_ANIMATION_TIME = MainView.BASE_ANIMATION_TIME;
-    private static final long SPAWN_ANIMATION_TIME = MainView.BASE_ANIMATION_TIME;
+    private static final long MOVE_ANIMATION_TIME = Constants.BASE_ANIMATION_TIME;
+    private static final long SPAWN_ANIMATION_TIME = Constants.BASE_ANIMATION_TIME;
     private static final long NOTIFICATION_DELAY_TIME = MOVE_ANIMATION_TIME + SPAWN_ANIMATION_TIME;
-    private static final long NOTIFICATION_ANIMATION_TIME = MainView.BASE_ANIMATION_TIME * 5;
+    private static final long NOTIFICATION_ANIMATION_TIME = Constants.BASE_ANIMATION_TIME * 5;
     private static final int startingMaxValue = 2048;
-    //Odd state = game is not active
-    //Even state = game is active
-    //Win state = active state + 1
-    private static final int GAME_WIN = 1;
-    private static final int GAME_LOST = -1;
-    private static final int GAME_NORMAL = 0;
+
     public int gameState = GAME_NORMAL;
     public int lastGameState = GAME_NORMAL;
     private int bufferGameState = GAME_NORMAL;
-    private static final int GAME_ENDLESS = 2;
-    private static final int GAME_ENDLESS_WON = 3;
-    private static final String HIGH_SCORE = "high score";
-    private static final String FIRST_RUN = "first run";
+
     private static int endingMaxValue;
-    final int numSquaresX = 4;
-    final int numSquaresY = 4;
+
+    public final int numSquaresX = 4;
+    public final int numSquaresY = 4;
+
     private final Context mContext;
-    private final MainView mView;
+    private final G2048View mView;
+
     public Grid grid = null;
     public AnimationGrid aGrid;
     public boolean canUndo;
@@ -46,7 +57,10 @@ public class MainGame {
     public long lastScore = 0;
     private long bufferScore = 0;
 
-    public MainGame(Context context, MainView view) {
+    private double ODD_OF_GETTING_2 = 0.8;
+    private int theme = 0; // 0 LIGHT , 1 DARK , ...
+
+    public G2048Game(Context context, G2048View view) {
         mContext = context;
         mView = view;
         endingMaxValue = (int) Math.pow(2, view.numCellTypes - 1);
@@ -71,7 +85,7 @@ public class MainGame {
         addStartTiles();
         mView.showHelp = firstRun();
         mView.refreshLastTime = true;
-        mView.resyncTime();
+        mView.reSyncTime();
         mView.invalidate();
     }
 
@@ -84,7 +98,7 @@ public class MainGame {
 
     private void addRandomTile() {
         if (grid.isCellsAvailable()) {
-            int value = Math.random() < 0.9 ? 2 : 4;
+            int value = Math.random() < ODD_OF_GETTING_2 ? 2 : 4;
             Tile tile = new Tile(grid.randomAvailableCell(), value);
             spawnTile(tile);
         }
@@ -99,13 +113,13 @@ public class MainGame {
     private void recordHighScore() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putLong(HIGH_SCORE, highScore);
+        editor.putLong(HIGH_SCORE_PERM, highScore);
         editor.apply();
     }
 
     private long getHighScore() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
-        return settings.getLong(HIGH_SCORE, -1);
+        return settings.getLong(HIGH_SCORE_PERM, -1);
     }
 
     private boolean firstRun() {
@@ -239,7 +253,8 @@ public class MainGame {
             addRandomTile();
             checkLose();
         }
-        mView.resyncTime();
+
+        mView.reSyncTime();
         mView.invalidate();
     }
 

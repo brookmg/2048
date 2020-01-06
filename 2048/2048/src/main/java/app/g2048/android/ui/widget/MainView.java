@@ -1,4 +1,4 @@
-package com.tpcstld.twozerogame;
+package app.g2048.android.ui.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,19 +11,24 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 
+import app.g2048.android.R;
+import app.g2048.android.data.Tile;
+import app.g2048.android.data.AnimationCell;
+import app.g2048.android.logic.G2048Game;
+
 import java.util.ArrayList;
 
-@SuppressWarnings("deprecation")
 public class MainView extends View {
 
     //Internal Constants
-    static final int BASE_ANIMATION_TIME = 100000000;
+    public static final int BASE_ANIMATION_TIME = 100_000_000;
     private static final String TAG = MainView.class.getSimpleName();
     private static final float MERGING_ACCELERATION = (float) -0.5;
     private static final float INITIAL_VELOCITY = (1 - MERGING_ACCELERATION) / 4;
     public final int numCellTypes = 21;
     private final BitmapDrawable[] bitmapCell = new BitmapDrawable[numCellTypes];
-    public final MainGame game;
+    public final G2048Game game = null;
+
     //Internal variables
     private final Paint paint = new Paint();
     public boolean hasSaveState = false;
@@ -32,22 +37,27 @@ public class MainView extends View {
     public int startingY;
     public int endingX;
     public int endingY;
+
     //Icon variables
     public int sYIcons;
     public int sXNewGame;
     public int sXUndo;
     public int iconSize;
+
     //Misc
-    boolean refreshLastTime = true;
-    boolean showHelp;
+    public boolean refreshLastTime = true;
+    public boolean showHelp;
+
     //Timing
     private long lastFPSTime = System.nanoTime();
+
     //Text
     private float titleTextSize;
     private float bodyTextSize;
     private float headerTextSize;
     private float instructionsTextSize;
     private float gameOverTextSize;
+
     //Layout variables
     private int cellSize = 0;
     private float textSize = 0;
@@ -55,6 +65,7 @@ public class MainView extends View {
     private int gridWidth = 0;
     private int textPaddingSize;
     private int iconPaddingSize;
+
     //Assets
     private Drawable backgroundRectangle;
     private Drawable lightUpRectangle;
@@ -63,6 +74,7 @@ public class MainView extends View {
     private BitmapDrawable loseGameOverlay;
     private BitmapDrawable winGameContinueOverlay;
     private BitmapDrawable winGameFinalOverlay;
+
     //Text variables
     private int sYAll;
     private int titleStartYAll;
@@ -76,7 +88,7 @@ public class MainView extends View {
 
         Resources resources = context.getResources();
         //Loading resources
-        game = new MainGame(context, this);
+        //game = new MainGame(context, this);
         try {
             //Getting assets
             backgroundRectangle = resources.getDrawable(R.drawable.background_rectangle);
@@ -89,7 +101,7 @@ public class MainView extends View {
         } catch (Exception e) {
             Log.e(TAG, "Error getting assets?", e);
         }
-        setOnTouchListener(new InputListener(this));
+        //setOnTouchListener(new InputListener(this));
         game.newGame();
     }
 
@@ -152,7 +164,7 @@ public class MainView extends View {
         } else {
             paint.setColor(getResources().getColor(R.color.text_black));
         }
-        canvas.drawText("" + value, cellSize / 2, cellSize / 2 - textShiftY, paint);
+        canvas.drawText("" + value, cellSize / 2f, cellSize / 2f - textShiftY, paint);
     }
 
     private void drawScoreText(Canvas canvas) {
@@ -246,10 +258,10 @@ public class MainView extends View {
     private void drawHeader(Canvas canvas) {
         paint.setTextSize(headerTextSize);
         paint.setColor(getResources().getColor(R.color.text_black));
-        paint.setTextAlign(Paint.Align.LEFT);
-        int textShiftY = centerText() * 2;
+        paint.setTextAlign(Paint.Align.CENTER);
+        int textShiftY = centerText();
         int headerStartY = sYAll - textShiftY;
-        canvas.drawText(getResources().getString(R.string.header), startingX, headerStartY, paint);
+        canvas.drawText(getResources().getString(R.string.header), startingX + (centerText() * 2), headerStartY, paint);
     }
 
     private void drawInstructions(Canvas canvas) {
@@ -304,31 +316,31 @@ public class MainView extends View {
                     for (int i = aArray.size() - 1; i >= 0; i--) {
                         AnimationCell aCell = aArray.get(i);
                         //If this animation is not active, skip it
-                        if (aCell.getAnimationType() == MainGame.SPAWN_ANIMATION) {
+                        if (aCell.getAnimationType() == G2048Game.SPAWN_ANIMATION) {
                             animated = true;
                         }
                         if (!aCell.isActive()) {
                             continue;
                         }
 
-                        if (aCell.getAnimationType() == MainGame.SPAWN_ANIMATION) { // Spawning animation
+                        if (aCell.getAnimationType() == G2048Game.SPAWN_ANIMATION) { // Spawning animation
                             double percentDone = aCell.getPercentageDone();
                             float textScaleSize = (float) (percentDone);
                             paint.setTextSize(textSize * textScaleSize);
 
-                            float cellScaleSize = cellSize / 2 * (1 - textScaleSize);
+                            float cellScaleSize = cellSize / 2f * (1 - textScaleSize);
                             bitmapCell[index].setBounds((int) (sX + cellScaleSize), (int) (sY + cellScaleSize), (int) (eX - cellScaleSize), (int) (eY - cellScaleSize));
                             bitmapCell[index].draw(canvas);
-                        } else if (aCell.getAnimationType() == MainGame.MERGE_ANIMATION) { // Merging Animation
+                        } else if (aCell.getAnimationType() == G2048Game.MERGE_ANIMATION) { // Merging Animation
                             double percentDone = aCell.getPercentageDone();
                             float textScaleSize = (float) (1 + INITIAL_VELOCITY * percentDone
                                     + MERGING_ACCELERATION * percentDone * percentDone / 2);
                             paint.setTextSize(textSize * textScaleSize);
 
-                            float cellScaleSize = cellSize / 2 * (1 - textScaleSize);
+                            float cellScaleSize = cellSize / 2f * (1 - textScaleSize);
                             bitmapCell[index].setBounds((int) (sX + cellScaleSize), (int) (sY + cellScaleSize), (int) (eX - cellScaleSize), (int) (eY - cellScaleSize));
                             bitmapCell[index].draw(canvas);
-                        } else if (aCell.getAnimationType() == MainGame.MOVE_ANIMATION) {  // Moving animation
+                        } else if (aCell.getAnimationType() == G2048Game.MOVE_ANIMATION) {  // Moving animation
                             double percentDone = aCell.getPercentageDone();
                             int tempIndex = index;
                             if (aArray.size() >= 2) {
@@ -360,7 +372,7 @@ public class MainView extends View {
         double alphaChange = 1;
         continueButtonEnabled = false;
         for (AnimationCell animation : game.aGrid.globalAnimation) {
-            if (animation.getAnimationType() == MainGame.FADE_GLOBAL_ANIMATION) {
+            if (animation.getAnimationType() == G2048Game.FADE_GLOBAL_ANIMATION) {
                 alphaChange = animation.getPercentageDone();
             }
         }

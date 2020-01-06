@@ -1,4 +1,4 @@
-package com.tpcstld.twozerogame;
+package app.g2048.android.data;
 
 public class Cell {
     private int x;

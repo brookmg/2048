@@ -1,81 +1,35 @@
-package com.tpcstld.twozerogame;
+package app.g2048.android.util;
 
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.KeyEvent;
 
-import androidx.appcompat.app.AppCompatActivity;
+import app.g2048.android.data.Tile;
+import app.g2048.android.ui.widget.G2048View;
+import app.g2048.android.ui.widget.MainView;
 
-public class MainActivity extends AppCompatActivity {
+import static app.g2048.android.util.Constants.CAN_UNDO;
+import static app.g2048.android.util.Constants.GAME_STATE;
+import static app.g2048.android.util.Constants.HEIGHT;
+import static app.g2048.android.util.Constants.HIGH_SCORE;
+import static app.g2048.android.util.Constants.SCORE;
+import static app.g2048.android.util.Constants.UNDO_GAME_STATE;
+import static app.g2048.android.util.Constants.UNDO_GRID;
+import static app.g2048.android.util.Constants.UNDO_SCORE;
+import static app.g2048.android.util.Constants.WIDTH;
 
-    private static final String WIDTH = "width";
-    private static final String HEIGHT = "height";
-    private static final String SCORE = "score";
-    private static final String HIGH_SCORE = "high score temp";
-    private static final String UNDO_SCORE = "undo score";
-    private static final String CAN_UNDO = "can undo";
-    private static final String UNDO_GRID = "undo";
-    private static final String GAME_STATE = "game state";
-    private static final String UNDO_GAME_STATE = "undo game state";
-    private MainView view;
+public class GameSaver {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        view = new MainView(this);
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        view.hasSaveState = settings.getBoolean("save_state", false);
-
-        if (savedInstanceState != null) {
-            if (savedInstanceState.getBoolean("hasState")) {
-                load();
-            }
-        }
-        setContentView(view);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            //Do nothing
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-            view.game.move(2);
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-            view.game.move(0);
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            view.game.move(3);
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            view.game.move(1);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean("hasState", true);
-        save();
-    }
-
-    protected void onPause() {
-        super.onPause();
-        save();
-    }
-
-    private void save() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+    public static void saveGame(Context context, G2048View view) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
+
         Tile[][] field = view.game.grid.field;
         Tile[][] undoField = view.game.grid.undoField;
+
         editor.putInt(WIDTH, field.length);
         editor.putInt(HEIGHT, field.length);
+
         for (int xx = 0; xx < field.length; xx++) {
             for (int yy = 0; yy < field[0].length; yy++) {
                 if (field[xx][yy] != null) {
@@ -97,19 +51,16 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean(CAN_UNDO, view.game.canUndo);
         editor.putInt(GAME_STATE, view.game.gameState);
         editor.putInt(UNDO_GAME_STATE, view.game.lastGameState);
-        editor.commit();
+
+        editor.apply();
     }
 
-    protected void onResume() {
-        super.onResume();
-        load();
-    }
-
-    private void load() {
+    public static void loadGame(Context context, G2048View view) {
         //Stopping all animations
         view.game.aGrid.cancelAnimations();
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+
         for (int xx = 0; xx < view.game.grid.field.length; xx++) {
             for (int yy = 0; yy < view.game.grid.field[0].length; yy++) {
                 int value = settings.getInt(xx + " " + yy, -1);
@@ -135,4 +86,5 @@ public class MainActivity extends AppCompatActivity {
         view.game.gameState = settings.getInt(GAME_STATE, view.game.gameState);
         view.game.lastGameState = settings.getInt(UNDO_GAME_STATE, view.game.lastGameState);
     }
+
 }

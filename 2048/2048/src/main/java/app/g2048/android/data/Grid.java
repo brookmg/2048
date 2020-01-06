@@ -1,4 +1,4 @@
-package com.tpcstld.twozerogame;
+package app.g2048.android.data;
 
 import java.util.ArrayList;
 

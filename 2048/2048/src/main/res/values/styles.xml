@@ -1,5 +1,104 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="CustomBottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomModalStyle</item>
+    </style>
+
+    <style name="CustomModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/round_dialogs</item>
+    </style>
+
+    <style name="CustomBottomSheetDialogDark" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomModalStyleDark</item>
+    </style>
+
+    <style name="CustomModalStyleDark" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/round_dialogs_dark</item>
+    </style>
+
+    <style name="G2048LightTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/white_0y</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
+
+        <item name="android:windowBackground">@color/white_0</item>
+        <item name="colorPrimary">@color/green_0</item>
+        <item name="colorPrimaryDark">@color/green_0</item>
+        <item name="colorAccent">@color/black_0</item>
+        <item name="appBackgroundColor">@color/white_0</item>
+        <item name="appBackgroundColorTransparent">@color/white_0y</item>
+        <item name="appCardColor">@color/white_0</item>
+        <item name="appTabColor">@color/green_0</item>
+        <item name="appTextColorPrimary">@color/black_0</item>
+        <item name="appAccentColor">@color/green_0</item>
+        <item name="appTextColorSecondary">@color/black_1</item>
+        <item name="appSelectedTabColor">@color/black_0</item>
+        <item name="appHeaderBackground">@color/grey_0</item>
+        <item name="appBackgroundColorMoreTransparent">@color/white_0w</item>
+
+        <item name="box2BackgroundColor">@color/color_2_background</item>
+        <item name="box4BackgroundColor">@color/color_4_background</item>
+        <item name="box8BackgroundColor">@color/color_8_background</item>
+        <item name="box16BackgroundColor">@color/color_16_background</item>
+        <item name="box32BackgroundColor">@color/color_32_background</item>
+        <item name="box64BackgroundColor">@color/color_64_background</item>
+        <item name="box128BackgroundColor">@color/color_128_background</item>
+        <item name="box256BackgroundColor">@color/color_256_background</item>
+        <item name="box512BackgroundColor">@color/color_512_background</item>
+        <item name="box1024BackgroundColor">@color/color_1024_background</item>
+        <item name="box2048BackgroundColor">@color/color_2048_background</item>
+
+        <item name="box4096PlusBackgroundColor">@color/color_4096_background</item>
+
+        <item name="rectangleFadeColor">@color/color_rectangle_fade</item>
+        <item name="rectangleBackgroundColor">@color/color_rectangle_background</item>
+        <item name="rectangleLightUpColor">@color/color_rectangle_light_up</item>
+
+    </style>
+
+    <style name="G2048DarkTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/black_1y</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialogDark</item>
+
+        <item name="android:windowBackground">@color/black_1</item>
+        <item name="colorPrimary">@color/green_0</item>
+        <item name="colorPrimaryDark">@color/black_0</item>
+        <item name="colorAccent">@color/white_0</item>
+        <item name="appBackgroundColor">@color/black_1</item>
+        <item name="appCardColor">@color/black_1</item>
+        <item name="appBackgroundColorTransparent">@color/black_1y</item>
+        <item name="appTabColor">@color/green_0</item>
+        <item name="appTextColorPrimary">@color/white_0</item>
+        <item name="appAccentColor">@color/green_0</item>
+        <item name="appTextColorSecondary">@color/white_1</item>
+        <item name="appSelectedTabColor">@color/white_0</item>
+        <item name="appHeaderBackground">@color/black_1</item>
+        <item name="appBackgroundColorMoreTransparent">@color/black_1w</item>
+
+        <item name="box2BackgroundColor">@color/color_2_background</item>
+        <item name="box4BackgroundColor">@color/color_4_background</item>
+        <item name="box8BackgroundColor">@color/color_8_background</item>
+        <item name="box16BackgroundColor">@color/color_16_background</item>
+        <item name="box32BackgroundColor">@color/color_32_background</item>
+        <item name="box64BackgroundColor">@color/color_64_background</item>
+        <item name="box128BackgroundColor">@color/color_128_background</item>
+        <item name="box256BackgroundColor">@color/color_256_background</item>
+        <item name="box512BackgroundColor">@color/color_512_background</item>
+        <item name="box1024BackgroundColor">@color/color_1024_background</item>
+        <item name="box2048BackgroundColor">@color/color_2048_background</item>
+
+        <item name="box4096PlusBackgroundColor">@color/color_4096_background</item>
+
+        <item name="rectangleFadeColor">@color/color_rectangle_fade</item>
+        <item name="rectangleBackgroundColor">@color/color_rectangle_background</item>
+        <item name="rectangleLightUpColor">@color/color_rectangle_light_up</item>
     </style>
 </resources>

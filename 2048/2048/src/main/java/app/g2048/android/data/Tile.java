@@ -1,4 +1,4 @@
-package com.tpcstld.twozerogame;
+package app.g2048.android.data;
 
 public class Tile extends Cell {
     private final int value;

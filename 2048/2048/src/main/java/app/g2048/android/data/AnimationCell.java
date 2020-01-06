@@ -1,6 +1,6 @@
-package com.tpcstld.twozerogame;
+package app.g2048.android.data;
 
-class AnimationCell extends Cell {
+public class AnimationCell extends Cell {
     public final int[] extras;
     private final int animationType;
     private final long animationTime;
