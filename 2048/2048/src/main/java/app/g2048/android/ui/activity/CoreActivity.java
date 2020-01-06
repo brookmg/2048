@@ -14,6 +14,8 @@ import android.transition.TransitionInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,8 @@ public class CoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_core);
 
+        _fragmentContainer = findViewById(R.id.fragmentContainer);
+
         componentButtons.add(findViewById(R.id.component_1_button));
         componentButtons.add(findViewById(R.id.component_2_button));
         componentButtons.add(findViewById(R.id.component_3_button));
@@ -63,11 +67,26 @@ public class CoreActivity extends AppCompatActivity {
 
         changeFragment(TAG_HOME , new Bundle(), null);
 
-//        setupComponentButtons(appCompatImageView -> {
-//            appCompatImageView.setImageResource(R.drawable.ic_back);
-//            appCompatImageView.setVisibility(View.VISIBLE);
-//        }, 0, 1, 2);
+    }
 
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            //there are more items in the back stack. We are not on the home frag
+            getSupportFragmentManager().popBackStackImmediate();
+        } else {
+            Snackbar.make(
+                    _fragmentContainer,
+                    "sure you want to exit?" ,
+                    Snackbar.LENGTH_SHORT)
+                    .setAction("Yap!" , (v) -> finish())
+                    .show();
+        }
+
+        if (getSupportFragmentManager().getFragments()
+                .get(getSupportFragmentManager().getFragments().size() - 1) instanceof BaseFragment)
+            setCurrentFragment((BaseFragment) getSupportFragmentManager().getFragments()
+                    .get(getSupportFragmentManager().getFragments().size() - 1));
     }
 
     private void fragStarter (String fragTag , BaseFragment baseFragment , Bundle bundle, View sharedView) {
