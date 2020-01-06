@@ -91,6 +91,25 @@ public class HomeFragment extends BaseFragment {
     };
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("hasState", true);
+        GameSaver.saveGame(getActivity(), gameView);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        GameSaver.saveGame(getActivity() , gameView);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GameSaver.loadGame(getActivity() , gameView);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -101,6 +120,12 @@ public class HomeFragment extends BaseFragment {
         highScoreField = mainView.findViewById(R.id.high_score_field);
 
         gameView.setMainViewHooks(g2048Hook);
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean("hasState")) {
+                GameSaver.loadGame(getActivity(), gameView);
+            }
+        }
 
         setupComponentButton(0 , button -> {
             button.setImageResource(R.drawable.ic_back);
