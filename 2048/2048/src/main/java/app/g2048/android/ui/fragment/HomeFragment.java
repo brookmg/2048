@@ -1,15 +1,20 @@
 package app.g2048.android.ui.fragment;
 
 
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -35,6 +40,7 @@ public class HomeFragment extends BaseFragment {
     private boolean isGameWon = false;
 
     private AppCompatTextView scoreField , highScoreField;
+    private AppCompatImageButton resetButton;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -54,6 +60,20 @@ public class HomeFragment extends BaseFragment {
         return fragment;
     }
 
+    @SuppressLint("RestrictedApi")
+    private void changeResetButtonTint(boolean advisedToReset) {
+        if (getActivity() != null) {
+            TypedValue currentTextColor = new TypedValue();
+            getActivity().getTheme().resolveAttribute(R.attr.appTextColorPrimary , currentTextColor , true);
+
+            resetButton.setSupportImageTintList(
+                    ColorStateList.valueOf(advisedToReset ?
+                            ContextCompat.getColor(getActivity(), R.color.green_0):
+                            currentTextColor.data )
+            );
+        }
+    }
+
     MainViewHooks g2048Hook = new MainViewHooks() {
         @Override
         public void onScoreChanged(long score) {
@@ -67,15 +87,18 @@ public class HomeFragment extends BaseFragment {
             highScoreField.setText(String.format(Locale.ENGLISH, "%d", highScore));
         }
 
+        @SuppressLint("RestrictedApi")
         @Override
         public void gameLost() {
             isGameLost = true;
+            changeResetButtonTint(true);
             Log.e(HomeFragment.class.getName() , "GAME IS LOST !!!");
         }
 
         @Override
         public void gameWon() {
             isGameWon = true;
+            changeResetButtonTint(true);
             Log.e(HomeFragment.class.getName() , "GAME IS WON !!!");
         }
 
@@ -86,11 +109,14 @@ public class HomeFragment extends BaseFragment {
 
         @Override
         public void onNewGame() {
+            changeResetButtonTint(false);
             Log.e(HomeFragment.class.getName() , "NEW GAME???");
+            isGameLost = false; isGameWon = false;
         }
 
         @Override
         public void onGameReverted() {
+            changeResetButtonTint(false);
             isGameLost = false;
 
                 // until we find a better way to find out if they are in endless mode or not.
@@ -137,7 +163,8 @@ public class HomeFragment extends BaseFragment {
         }
 
         mainView.findViewById(R.id.revert_button).setOnClickListener(this::handleRevertButtonClick);
-        mainView.findViewById(R.id.restart_button).setOnClickListener(this::handleResetButtonClick);
+        resetButton = mainView.findViewById(R.id.restart_button);
+        resetButton.setOnClickListener(this::handleResetButtonClick);
         mainView.findViewById(R.id.save_button).setOnClickListener(this::handleSaveButtonClick);
 
         return mainView;
@@ -158,6 +185,7 @@ public class HomeFragment extends BaseFragment {
     private void handleRevertButtonClick(View view) {
         gameView.game.revertUndoState();
         isGameLost = false;
+        changeResetButtonTint(false);
     }
 
     private void handleSaveButtonClick(View view) {
