@@ -20,6 +20,8 @@ import static app.g2048.android.util.Constants.WIDTH;
 public class GameSaver {
 
     public static void saveGame(Context context, G2048View view) {
+        if (view == null) return;
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
 
@@ -55,6 +57,8 @@ public class GameSaver {
     }
 
     public static void loadGame(Context context, G2048View view) {
+        if (view == null) return;
+
         //Stopping all animations
         view.game.aGrid.cancelAnimations();
 
