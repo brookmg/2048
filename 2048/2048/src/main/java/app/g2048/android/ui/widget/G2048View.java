@@ -392,7 +392,7 @@ public class G2048View extends View {
     private void tick() {
         long currentTime = System.nanoTime();
         game.aGrid.tickAll(currentTime - lastFPSTime);
-        Log.e("FPS" , 1000 / ((currentTime - lastFPSTime) / 1_000_000) + "");
+//        Log.e("FPS" , 1000 / ((currentTime - lastFPSTime) / 1_000_000) + "");
         lastFPSTime = currentTime;
     }
 
