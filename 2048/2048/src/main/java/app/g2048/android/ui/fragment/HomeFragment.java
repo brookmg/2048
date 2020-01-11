@@ -127,40 +127,33 @@ public class HomeFragment extends BaseFragment {
             }
         }
 
-        setupComponentButton(0 , button -> {
-            button.setImageResource(R.drawable.ic_back);
-            button.setOnClickListener(v -> {
-                gameView.game.revertUndoState();
-            }); // revert something on the game
-            button.setVisibility(View.VISIBLE);
-        });
-
-        setupComponentButton(2 , button -> {
-            button.setImageResource(R.drawable.ic_save);
-            button.setOnClickListener(v -> {
-                GameSaver.saveGame(getActivity() , gameView);
-                Snackbar.make(gameView , "Game State Saved !!!" , Snackbar.LENGTH_SHORT).show();
-            }); // save the current game
-            button.setVisibility(View.VISIBLE);
-        });
-
-        setupComponentButton(3 , button -> {
-            button.setImageResource(R.drawable.ic_refresh);
-            button.setOnClickListener(v -> {
-                if (!isGameLost && !isGameWon) {
-                    if (getActivity() != null)
-                        new AlertDialog.Builder(getActivity())
-                                .setPositiveButton(R.string.reset, (dialog, which) -> gameView.game.newGame())
-                                .setNegativeButton(R.string.continue_game, null)
-                                .setTitle(R.string.reset_dialog_title)
-                                .setMessage(R.string.reset_dialog_message)
-                                .show();
-                } else gameView.game.newGame();
-            }); // refresh the current game after confirmation.
-            button.setVisibility(View.VISIBLE);
-        });
+        mainView.findViewById(R.id.revert_button).setOnClickListener(this::handleRevertButtonClick);
+        mainView.findViewById(R.id.restart_button).setOnClickListener(this::handleResetButtonClick);
+        mainView.findViewById(R.id.save_button).setOnClickListener(this::handleSaveButtonClick);
 
         return mainView;
+    }
+
+    private void handleResetButtonClick(View view) {
+        if (!isGameLost && !isGameWon) {
+            if (getActivity() != null)
+                new AlertDialog.Builder(getActivity())
+                        .setPositiveButton(R.string.reset, (dialog, which) -> gameView.game.newGame())
+                        .setNegativeButton(R.string.continue_game, null)
+                        .setTitle(R.string.reset_dialog_title)
+                        .setMessage(R.string.reset_dialog_message)
+                        .show();
+        } else gameView.game.newGame();
+    }
+
+    private void handleRevertButtonClick(View view) {
+        gameView.game.revertUndoState();
+        isGameLost = false;
+    }
+
+    private void handleSaveButtonClick(View view) {
+        GameSaver.saveGame(getActivity() , gameView);
+        Snackbar.make(gameView , "Game State Saved !!!" , Snackbar.LENGTH_SHORT).show();
     }
 
 }
