@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -107,9 +108,9 @@ public class G2048View extends View {
         try {
 
             //Getting assets
-            backgroundRectangle = resources.getDrawable(R.drawable.background_rectangle);
-            lightUpRectangle = resources.getDrawable(R.drawable.light_up_rectangle);
-            fadeRectangle = resources.getDrawable(R.drawable.fade_rectangle);
+            backgroundRectangle = ContextCompat.getDrawable(getContext(),R.drawable.background_rectangle);
+            lightUpRectangle = ContextCompat.getDrawable(getContext(),R.drawable.light_up_rectangle);
+            fadeRectangle = ContextCompat.getDrawable(getContext(),R.drawable.fade_rectangle);
 
             //todo THIS SHOULD BE DIFFERENT FOR EACH THEME.
             //this.setBackgroundColor(resources.getColor(R.color.background));
@@ -127,8 +128,10 @@ public class G2048View extends View {
     }
 
     private void drawDrawable(Canvas canvas, Drawable draw, int startingX, int startingY, int endingX, int endingY) {
-        draw.setBounds(startingX, startingY, endingX, endingY);
-        draw.draw(canvas);
+        if (draw != null) {
+            draw.setBounds(startingX, startingY, endingX, endingY);
+            draw.draw(canvas);
+        }
     }
 
     private void drawBackground(Canvas canvas) {
@@ -138,7 +141,7 @@ public class G2048View extends View {
     //Renders the set of 16 background squares.
     private void drawBackgroundGrid(Canvas canvas) {
         Resources resources = getResources();
-        Drawable backgroundCell = resources.getDrawable(R.drawable.cell_rectangle);
+        Drawable backgroundCell = ContextCompat.getDrawable(getContext() , R.drawable.cell_rectangle);
         // Outputting the game grid
         for (int currentColumn = 0; currentColumn < game.numSquaresX; currentColumn++) {
             for (int currentRow = 0; currentRow < game.numSquaresY; currentRow++) {
@@ -338,7 +341,7 @@ public class G2048View extends View {
             paint.setTextSize(tempTextSize);
             Bitmap bitmap = Bitmap.createBitmap(cellSize, cellSize, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
-            drawDrawable(canvas, resources.getDrawable(cellRectangleIds[currentBlock]),
+            drawDrawable(canvas, ContextCompat.getDrawable(getContext(), cellRectangleIds[currentBlock]),
                     0, 0, cellSize, cellSize);
             drawCellText(canvas, value);
             bitmapCell[currentBlock] = new BitmapDrawable(resources, bitmap);
@@ -402,7 +405,7 @@ public class G2048View extends View {
 
     private void getLayout(int width, int height) {
         cellSize = Math.min(width / (game.numSquaresX + 1), height / (game.numSquaresY + 3));
-        gridWidth = cellSize / 7;
+        gridWidth = cellSize / 8;
         int screenMiddleX = width / 2;
         int screenMiddleY = height / 2;
         int boardMiddleY = screenMiddleY + cellSize / 2;
@@ -412,8 +415,8 @@ public class G2048View extends View {
         double halfNumSquaresY = game.numSquaresY / 2d;
         startingX = (int) (screenMiddleX - (cellSize + gridWidth) * halfNumSquaresX - gridWidth / 2);
         endingX = (int) (screenMiddleX + (cellSize + gridWidth) * halfNumSquaresX + gridWidth / 2);
-        startingY = (int) (screenMiddleY - (cellSize + gridWidth) * halfNumSquaresY - gridWidth / 2);
-        endingY = (int) (screenMiddleY + (cellSize + gridWidth) * halfNumSquaresY + gridWidth / 2);
+        startingY = (int) (screenMiddleY - (cellSize + gridWidth) * halfNumSquaresY - gridWidth / 2) - 100;
+        endingY = (int) (screenMiddleY + (cellSize + gridWidth) * halfNumSquaresY + gridWidth / 2) - 100;
 
         float widthWithPadding = endingX - startingX;
 
