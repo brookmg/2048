@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import app.g2048.android.ui.widget.G2048View;
-import app.g2048.android.ui.widget.MainView;
 import app.g2048.android.data.Tile;
 import app.g2048.android.data.AnimationGrid;
 import app.g2048.android.data.Cell;
@@ -51,10 +50,11 @@ public class G2048Game {
 
     public Grid grid = null;
     public AnimationGrid aGrid;
-    public boolean canUndo;
-    public long score = 0;
-    public long highScore = 0;
-    public long lastScore = 0;
+    private boolean canUndo;
+
+    private long score = 0;
+    private long highScore = 0;
+    private long lastScore = 0;
     private long bufferScore = 0;
 
     private double ODD_OF_GETTING_2 = 0.8;
@@ -64,6 +64,43 @@ public class G2048Game {
         mContext = context;
         mView = view;
         endingMaxValue = (int) Math.pow(2, view.numCellTypes - 1);
+    }
+
+    public boolean isCanUndo() {
+        return canUndo;
+    }
+
+    public void setCanUndo(boolean canUndo) {
+        this.canUndo = canUndo;
+    }
+
+    public long getScore() {
+        return score;
+    }
+
+    public void setScore(long score) {
+        this.score = score;
+        if (mView.getMainViewHooks() != null)
+            mView.getMainViewHooks().onScoreChanged(score);
+    }
+
+    public void setHighScore(long highScore) {
+        this.highScore = highScore;
+        if (mView.getMainViewHooks() != null)
+            mView.getMainViewHooks().onHighScoreChanged(highScore);
+    }
+
+    public long getCurrentHighScore() {
+        return highScore;
+    }
+
+    public long getLastScore() {
+        return lastScore;
+    }
+
+
+    public void setLastScore(long lastScore) {
+        this.lastScore = lastScore;
     }
 
     public void newGame() {

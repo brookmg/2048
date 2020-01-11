@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 
 import app.g2048.android.data.Tile;
 import app.g2048.android.ui.widget.G2048View;
-import app.g2048.android.ui.widget.MainView;
 
 import static app.g2048.android.util.Constants.CAN_UNDO;
 import static app.g2048.android.util.Constants.GAME_STATE;
@@ -45,10 +44,10 @@ public class GameSaver {
                 }
             }
         }
-        editor.putLong(SCORE, view.game.score);
-        editor.putLong(HIGH_SCORE, view.game.highScore);
-        editor.putLong(UNDO_SCORE, view.game.lastScore);
-        editor.putBoolean(CAN_UNDO, view.game.canUndo);
+        editor.putLong(SCORE, view.game.getScore());
+        editor.putLong(HIGH_SCORE, view.game.getCurrentHighScore());
+        editor.putLong(UNDO_SCORE, view.game.getLastScore());
+        editor.putBoolean(CAN_UNDO, view.game.isCanUndo());
         editor.putInt(GAME_STATE, view.game.gameState);
         editor.putInt(UNDO_GAME_STATE, view.game.lastGameState);
 
@@ -79,10 +78,10 @@ public class GameSaver {
             }
         }
 
-        view.game.score = settings.getLong(SCORE, view.game.score);
-        view.game.highScore = settings.getLong(HIGH_SCORE, view.game.highScore);
-        view.game.lastScore = settings.getLong(UNDO_SCORE, view.game.lastScore);
-        view.game.canUndo = settings.getBoolean(CAN_UNDO, view.game.canUndo);
+        view.game.setScore(settings.getLong(SCORE, view.game.getScore()));
+        view.game.setHighScore(settings.getLong(HIGH_SCORE, view.game.getCurrentHighScore()));
+        view.game.setLastScore(settings.getLong(UNDO_SCORE, view.game.getLastScore()));
+        view.game.setCanUndo(settings.getBoolean(CAN_UNDO, view.game.isCanUndo()));
         view.game.gameState = settings.getInt(GAME_STATE, view.game.gameState);
         view.game.lastGameState = settings.getInt(UNDO_GAME_STATE, view.game.lastGameState);
     }
