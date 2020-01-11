@@ -4,16 +4,22 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ComplexColorCompat;
+import androidx.core.graphics.ColorUtils;
 
 import java.util.ArrayList;
 
@@ -158,11 +164,17 @@ public class G2048View extends View {
     //todo: Make it dependent on the luminosity of the background of the cell
     private void drawCellText(Canvas canvas, int value) {
         int textShiftY = centerText();
-//        if (value >= 8) {
-//            paint.setColor(getResources().getColor(R.color.text_white));
-//        } else {
+        Drawable tempBox = ContextCompat.getDrawable(getContext() , getCellRectangleIds()[log2(value)]);
+
+        double lum = ColorUtils.calculateLuminance(((GradientDrawable) tempBox).getColor().getDefaultColor());
+
+        if (lum < 0.5) {
+            paint.setColor(getResources().getColor(R.color.text_white));
+        } else {
             paint.setColor(getResources().getColor(R.color.text_black));
-//        }
+        }
+
+        Log.e("LUM" , "Luminance : " + value + " : " + lum);
         canvas.drawText("" + value, cellSize / 2f, cellSize / 2f - textShiftY, paint);
     }
 
