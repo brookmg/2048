@@ -107,6 +107,10 @@ public class G2048View extends View {
         this.mainViewHooks = mainViewHooks;
     }
 
+    public MainViewHooks getMainViewHooks() {
+        return mainViewHooks;
+    }
+
     private void initViews(Context context) {
         Resources resources = context.getResources();
         setGame(new G2048Game(context , this));
@@ -282,10 +286,8 @@ public class G2048View extends View {
             } else {
                 displayOverlay = winGameFinalOverlay;
             }
-            if (mainViewHooks != null) mainViewHooks.gameWon();
         } else if (game.gameLost()) {
             displayOverlay = loseGameOverlay;
-            if (mainViewHooks != null) mainViewHooks.gameLost();
         }
 
         if (displayOverlay != null) {
@@ -477,14 +479,10 @@ public class G2048View extends View {
 
         canvas.drawBitmap(background, 0, 0, paint);
 
-        if (mainViewHooks != null) {
-            mainViewHooks.onScoreChanged(game.score);
-            mainViewHooks.onHighScoreChanged(game.highScore);
-        }
-
-        if (!game.isActive() && !game.aGrid.isAnimationActive()) {
-            if (mainViewHooks != null) mainViewHooks.onNewGame();
-        }
+//        if (mainViewHooks != null) {
+//            mainViewHooks.onScoreChanged(game.score);
+//            mainViewHooks.onHighScoreChanged(game.highScore);
+//        }
 
         drawCells(canvas);
 

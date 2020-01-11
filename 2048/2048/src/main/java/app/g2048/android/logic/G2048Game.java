@@ -81,12 +81,22 @@ public class G2048Game {
             recordHighScore();
         }
         score = 0;
+
+        // send notification on score change to the view
+        if (mView.getMainViewHooks() != null) {
+            mView.getMainViewHooks().onScoreChanged(score);
+            mView.getMainViewHooks().onHighScoreChanged(highScore);
+        }
+
         gameState = GAME_NORMAL;
         addStartTiles();
         mView.showHelp = firstRun();
         mView.refreshLastTime = true;
         mView.reSyncTime();
         mView.invalidate();
+
+        if (mView.getMainViewHooks() != null)
+            mView.getMainViewHooks().onNewGame();
     }
 
     private void addStartTiles() {
@@ -168,6 +178,10 @@ public class G2048Game {
             aGrid.cancelAnimations();
             grid.revertTiles();
             score = lastScore;
+
+            // send notification on score change to the view
+            if (mView.getMainViewHooks() != null) mView.getMainViewHooks().onScoreChanged(score);
+
             gameState = lastGameState;
             mView.refreshLastTime = true;
             mView.invalidate();
@@ -230,6 +244,12 @@ public class G2048Game {
                         score = score + merged.getValue();
                         highScore = Math.max(score, highScore);
 
+                        // send notification on score change to the view
+                        if (mView.getMainViewHooks() != null) {
+                            mView.getMainViewHooks().onScoreChanged(score);
+                            mView.getMainViewHooks().onHighScoreChanged(highScore);
+                        }
+
                         // The mighty 2048 tile
                         if (merged.getValue() >= winValue() && !gameWon()) {
                             gameState = gameState + GAME_WIN; // Set win state
@@ -266,6 +286,11 @@ public class G2048Game {
     }
 
     private void endGame() {
+        if (mView.getMainViewHooks() != null) {
+            if (gameLost()) mView.getMainViewHooks().gameLost();
+            else if (gameWon()) mView.getMainViewHooks().gameWon();
+        }
+
         aGrid.startAnimation(-1, -1, FADE_GLOBAL_ANIMATION, NOTIFICATION_ANIMATION_TIME, NOTIFICATION_DELAY_TIME, null);
         if (score >= highScore) {
             highScore = score;
