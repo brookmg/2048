@@ -84,24 +84,24 @@
         <item name="appHeaderBackground">@color/black_1</item>
         <item name="appBackgroundColorMoreTransparent">@color/black_1w</item>
 
-        <item name="box2BackgroundColor">@color/color_2_background</item>
-        <item name="box4BackgroundColor">@color/color_4_background</item>
-        <item name="box8BackgroundColor">@color/color_8_background</item>
-        <item name="box16BackgroundColor">@color/color_16_background</item>
-        <item name="box32BackgroundColor">@color/color_32_background</item>
-        <item name="box64BackgroundColor">@color/color_64_background</item>
-        <item name="box128BackgroundColor">@color/color_128_background</item>
-        <item name="box256BackgroundColor">@color/color_256_background</item>
-        <item name="box512BackgroundColor">@color/color_512_background</item>
-        <item name="box1024BackgroundColor">@color/color_1024_background</item>
-        <item name="box2048BackgroundColor">@color/color_2048_background</item>
+        <item name="box2BackgroundColor">@color/color_2_background_dark</item>
+        <item name="box4BackgroundColor">@color/color_4_background_dark</item>
+        <item name="box8BackgroundColor">@color/color_8_background_dark</item>
+        <item name="box16BackgroundColor">@color/color_16_background_dark</item>
+        <item name="box32BackgroundColor">@color/color_32_background_dark</item>
+        <item name="box64BackgroundColor">@color/color_64_background_dark</item>
+        <item name="box128BackgroundColor">@color/color_128_background_dark</item>
+        <item name="box256BackgroundColor">@color/color_256_background_dark</item>
+        <item name="box512BackgroundColor">@color/color_512_background_dark</item>
+        <item name="box1024BackgroundColor">@color/color_1024_background_dark</item>
+        <item name="box2048BackgroundColor">@color/color_2048_background_dark</item>
 
-        <item name="box4096PlusBackgroundColor">@color/color_4096_background</item>
+        <item name="box4096PlusBackgroundColor">@color/color_4096_background_dark</item>
 
-        <item name="rectangleFadeColor">@color/color_rectangle_fade</item>
-        <item name="rectangleBackgroundColor">@color/color_rectangle_background</item>
-        <item name="rectangleLightUpColor">@color/color_rectangle_light_up</item>
-        <item name="cellBackgroundColor">@color/color_cell_background</item>
+        <item name="rectangleFadeColor">@color/color_rectangle_fade_dark</item>
+        <item name="rectangleBackgroundColor">@color/color_rectangle_background_dark</item>
+        <item name="rectangleLightUpColor">@color/color_rectangle_light_up_dark</item>
+        <item name="cellBackgroundColor">@color/color_cell_background_dark</item>
 
     </style>
 </resources>

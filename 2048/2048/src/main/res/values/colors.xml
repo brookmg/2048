@@ -50,5 +50,25 @@
     <color name="color_rectangle_light_up">#C8ED72</color>
 
     <color name="color_cell_background">#d6cdc4</color>
+
+    <color name="color_2_background_dark">#C5CCBB</color>
+    <color name="color_4_background_dark">#A9C7A8</color>
+    <color name="color_8_background_dark">#69CA66</color>
+    <color name="color_16_background_dark">#4DC36B</color>      // RED-ish
+    <color name="color_32_background_dark">#42AE83</color>
+    <color name="color_64_background_dark">#2DC193</color>
+    <color name="color_128_background_dark">#56B25A</color>
+    <color name="color_256_background_dark">#48A042</color>
+    <color name="color_512_background_dark">#3FB95D</color>
+    <color name="color_1024_background_dark">#2CB369</color>
+    <color name="color_2048_background_dark">#179244</color>    // GREEN-ish
+    <color name="color_4096_background_dark">#191E1A</color>
+
+    <color name="color_rectangle_background_dark">#6E7968</color>
+    <color name="color_rectangle_fade_dark">#87867C</color>
+    <color name="color_rectangle_light_up_dark">#97B356</color>
+
+    <color name="color_cell_background_dark">#958F88</color>
+
     <color name="status_background">#bbada0</color>
 </resources>
