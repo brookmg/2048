@@ -9,5 +9,6 @@ public interface MainViewHooks {
 
     void endlessModeEntered();
     void onNewGame();
+    void onGameReverted();
 
 }

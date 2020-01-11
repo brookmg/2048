@@ -88,6 +88,15 @@ public class HomeFragment extends BaseFragment {
         public void onNewGame() {
             Log.e(HomeFragment.class.getName() , "NEW GAME???");
         }
+
+        @Override
+        public void onGameReverted() {
+            isGameLost = false;
+
+                // until we find a better way to find out if they are in endless mode or not.
+                // We shouldn't keep a third variable that holds the endless state of the game
+            isGameWon = gameView.game.gameWon();
+        }
     };
 
     @Override

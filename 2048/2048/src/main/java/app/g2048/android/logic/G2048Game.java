@@ -185,6 +185,8 @@ public class G2048Game {
             gameState = lastGameState;
             mView.refreshLastTime = true;
             mView.invalidate();
+
+            if (mView.getMainViewHooks() != null) mView.getMainViewHooks().onGameReverted();
         }
     }
 
