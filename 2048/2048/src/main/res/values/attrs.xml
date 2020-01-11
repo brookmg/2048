@@ -46,6 +46,7 @@
         <attr name="rectangleFadeColor" format="color" />
         <attr name="rectangleBackgroundColor" format="color" />
         <attr name="rectangleLightUpColor" format="color" />
+        <attr name="cellBackgroundColor" format="color" />
 
     </declare-styleable>
 </resources>

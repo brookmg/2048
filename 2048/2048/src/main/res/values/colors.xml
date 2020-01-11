@@ -49,5 +49,6 @@
     <color name="color_rectangle_fade">#D6D3C4</color>
     <color name="color_rectangle_light_up">#C8ED72</color>
 
+    <color name="color_cell_background">#d6cdc4</color>
     <color name="status_background">#bbada0</color>
 </resources>

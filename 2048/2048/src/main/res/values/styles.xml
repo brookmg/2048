@@ -58,6 +58,7 @@
         <item name="rectangleFadeColor">@color/color_rectangle_fade</item>
         <item name="rectangleBackgroundColor">@color/color_rectangle_background</item>
         <item name="rectangleLightUpColor">@color/color_rectangle_light_up</item>
+        <item name="cellBackgroundColor">@color/color_cell_background</item>
 
     </style>
 
@@ -100,5 +101,7 @@
         <item name="rectangleFadeColor">@color/color_rectangle_fade</item>
         <item name="rectangleBackgroundColor">@color/color_rectangle_background</item>
         <item name="rectangleLightUpColor">@color/color_rectangle_light_up</item>
+        <item name="cellBackgroundColor">@color/color_cell_background</item>
+
     </style>
 </resources>
