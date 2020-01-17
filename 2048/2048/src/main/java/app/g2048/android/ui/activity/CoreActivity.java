@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.transition.TransitionInflater;
@@ -23,8 +24,11 @@ import java.util.List;
 import app.g2048.android.R;
 import app.g2048.android.ui.fragment.BaseFragment;
 import app.g2048.android.ui.fragment.HomeFragment;
+import app.g2048.android.util.Util;
 
 import static app.g2048.android.util.Constants.TAG_HOME;
+import static app.g2048.android.util.Util.getCurrentTheme;
+import static app.g2048.android.util.Util.setCurrentTheme;
 
 public class CoreActivity extends AppCompatActivity {
 
@@ -53,9 +57,18 @@ public class CoreActivity extends AppCompatActivity {
             }
     }
 
+    private void changeTheme() {
+        Util.setCurrentTheme(this , Util.getCurrentTheme(this) == 0 ? 1 : 0);
+        startActivity(new Intent(this, CoreActivity.class));
+        overridePendingTransition(0,0);
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(Util.getCurrentTheme(this) == 0 ? R.style.G2048LightTheme : R.style.G2048DarkTheme);
+
         setContentView(R.layout.activity_core);
 
         _fragmentContainer = findViewById(R.id.fragmentContainer);
@@ -64,6 +77,13 @@ public class CoreActivity extends AppCompatActivity {
         componentButtons.add(findViewById(R.id.component_2_button));
         componentButtons.add(findViewById(R.id.component_3_button));
         componentButtons.add(findViewById(R.id.component_4_button));
+
+        //set component 4 as the theme button
+        setupComponentButton(3 , button -> {
+            button.setImageResource(getCurrentTheme(this) == 0 ? R.drawable.ic_night : R.drawable.ic_day);
+            button.setVisibility(View.VISIBLE);
+            button.setOnClickListener(v -> changeTheme());
+        });
 
         changeFragment(TAG_HOME , new Bundle(), null);
 
