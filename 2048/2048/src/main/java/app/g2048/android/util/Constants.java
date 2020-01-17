@@ -30,4 +30,6 @@ public class Constants {
     public static final float MERGING_ACCELERATION = (float) -0.5;
     public static final float INITIAL_VELOCITY = (1 - MERGING_ACCELERATION) / 4;
 
+    public static final String THEME_PREF = "theme_pref";
+
 }
