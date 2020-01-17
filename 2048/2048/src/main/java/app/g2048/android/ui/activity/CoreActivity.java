@@ -69,6 +69,19 @@ public class CoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(Util.getCurrentTheme(this) == 0 ? R.style.G2048LightTheme : R.style.G2048DarkTheme);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            if (Util.getCurrentTheme(this) == 0)
+                getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                );
+            else
+                getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                );
+
         setContentView(R.layout.activity_core);
 
         _fragmentContainer = findViewById(R.id.fragmentContainer);
