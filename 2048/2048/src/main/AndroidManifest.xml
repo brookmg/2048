@@ -3,13 +3,15 @@
     package="app.g2048.android">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="true">
         <activity
             android:name=".ui.activity.CoreActivity"
-            android:theme="@style/G2048LightTheme" >
+            android:theme="@style/G2048DarkTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
