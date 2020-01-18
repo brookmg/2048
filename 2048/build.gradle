@@ -9,10 +9,63 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'com.google.firebase:firebase-plugins:2.0.0'
+        classpath 'io.fabric.tools:gradle:1.31.0'  // Crashlytics plugin
     }
+}
+
+ext {
+
+    appVersionMajor = 0
+    appVersionMinor = 1
+    appVersionBuild = 1
+
+    iterationNumber = 10
+    firebaseVersion = '17.0.0' //11.6.2 //10.0.1
+
+    firebaseStorage = '18.0.0'
+    constraintVersion = '1.1.0'
+    firebaseRemoteConfig  = '19.0.3'
+    firebaseDatabase = '18.0.0'
+    firebasePref = '18.0.1'
+    firebaseMessaging = '19.0.1'
+    firebaseAds = '18.3.0'
+    firebaseInappMessaging = '18.0.1'
+    firebaseFirestore = '20.1.0'
+    firebaseCrash = '16.2.1'
+    firebaseInvite = '17.0.0'
+    firebaseAuth = '18.0.0'
+    firebaseDeepLinks = '18.0.0'
+    googleServicesAds = '18.3.0'
+
+    firebase = [
+            invites: "com.google.firebase:firebase-invites:$firebaseInvite",
+            ads: "com.google.firebase:firebase-ads:$firebaseAds",
+            adslite: "com.google.firebase:firebase-ads-lite:$firebaseAds",
+            config: "com.google.firebase:firebase-config:$firebaseRemoteConfig",
+            messaging: "com.google.firebase:firebase-messaging:$firebaseMessaging",
+            auth: "com.google.firebase:firebase-auth:$firebaseAuth",
+            database: "com.google.firebase:firebase-database:$firebaseDatabase",
+            core: "com.google.firebase:firebase-core:$firebaseVersion",
+            crash: "com.google.firebase:firebase-crash:$firebaseCrash",
+            firestore: "com.google.firebase:firebase-firestore:$firebaseFirestore",
+            googlead: "com.google.android.gms:play-services-ads:$googleServicesAds",
+            googleadlite: "com.google.android.gms:play-services-ads-lite:$googleServicesAds",
+            inappmessagingdisplay: "com.google.firebase:firebase-inappmessaging-display:$firebaseMessaging",
+            inappmessaging: "com.google.firebase:firebase-inappmessaging:$firebaseMessaging",
+            performance: "com.google.firebase:firebase-perf:$firebasePref",
+            fireUI: 'com.firebaseui:firebase-ui-database:3.3.0',
+            storage: "com.google.firebase:firebase-storage:$firebaseStorage",
+            deeplinks: "com.google.firebase:firebase-dynamic-links:$firebaseDeepLinks"
+    ]
 }
 
 allprojects {
