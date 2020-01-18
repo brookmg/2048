@@ -17,6 +17,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -26,6 +27,8 @@ import app.g2048.android.R;
 import app.g2048.android.ui.widget.G2048View;
 import app.g2048.android.ui.widget.MainViewHooks;
 import app.g2048.android.util.GameSaver;
+
+import static app.g2048.android.util.Util.getCurrentTheme;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -173,7 +176,7 @@ public class HomeFragment extends BaseFragment {
     private void handleResetButtonClick(View view) {
         if (!isGameLost && !isGameWon) {
             if (getActivity() != null)
-                new AlertDialog.Builder(getActivity())
+                new MaterialAlertDialogBuilder(getActivity(), getCurrentTheme(getActivity()) == 0 ? R.style.CustomLightAlertDialog : R.style.CustomDarkAlertDialog)
                         .setPositiveButton(R.string.reset, (dialog, which) -> gameView.game.newGame())
                         .setNegativeButton(R.string.continue_game, null)
                         .setTitle(R.string.reset_dialog_title)
