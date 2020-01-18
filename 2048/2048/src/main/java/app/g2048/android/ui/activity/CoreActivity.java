@@ -1,5 +1,6 @@
 package app.g2048.android.ui.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -15,12 +16,17 @@ import android.transition.TransitionInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.g2048.android.BuildConfig;
 import app.g2048.android.R;
 import app.g2048.android.ui.fragment.BaseFragment;
 import app.g2048.android.ui.fragment.HomeFragment;
@@ -29,6 +35,8 @@ import app.g2048.android.util.Util;
 import static app.g2048.android.util.Constants.TAG_HOME;
 import static app.g2048.android.util.Util.getCurrentTheme;
 import static app.g2048.android.util.Util.setCurrentTheme;
+
+import android.util.Log;
 
 public class CoreActivity extends AppCompatActivity {
 
@@ -64,10 +72,29 @@ public class CoreActivity extends AppCompatActivity {
         finish();
     }
 
+    private void printCurrentFirebaseInstanceID() {
+        String TAG = "_TASK_";
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+
+                    // Log and toast
+                    Log.d(TAG, token);
+                });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(Util.getCurrentTheme(this) == 0 ? R.style.G2048LightTheme : R.style.G2048DarkTheme);
+
+        if (BuildConfig.DEBUG) printCurrentFirebaseInstanceID();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             if (Util.getCurrentTheme(this) == 0)
